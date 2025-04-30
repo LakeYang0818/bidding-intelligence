@@ -12,3 +12,12 @@
 ## Key
 1. Contextual Research
 2. Peer Comparison
+
+## Issues Plan
+
+### Bidding Fetcher
+- Step 1. Create Source DB including all bidding sources in target region
+- Step 2. Fetch the bidding posts on schedule
+- Step 3. Data Preprocessing - hierarchical datasets - Single Core Dataset and Multiple Attributes Datasets
+- Step 4. Data Consumption - Basic data analysis
+- Step 5. Data Monitoring Pane - Power BI data visualization for monitoring and analysis.
