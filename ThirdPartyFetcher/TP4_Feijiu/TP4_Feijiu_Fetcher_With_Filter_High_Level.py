@@ -1,10 +1,11 @@
 import pandas as pd
 import datetime
 from bs4 import BeautifulSoup
-from ThirdPartyFetcher.general_constants import HOME_DIR
+from ThirdPartyFetcher.constant.general_constants import HOME_DIR
 from filter_constant import PROVINCE_DICT, BID_OR_ASK_DICT, STATUS_DICT
-from ThirdPartyFetcher.other_utils import get_bidding_id
-from ThirdPartyFetcher.soup_utils import url_to_soup
+from schema import FEIJIU_BIDDING_HIGH_LEVEL_COLUMNS
+from ThirdPartyFetcher.utils.other_utils import get_bidding_id
+from ThirdPartyFetcher.utils.soup_utils import url_to_soup
 
 Feijiu_Search_Base_Url = "https://www.zbytb.com/search/"
 
@@ -29,7 +30,7 @@ def build_search_url(page: int = 1,
     return Feijiu_Search_Base_Url + "?" + query_string
 
 
-def get_single_page_bidding(soup: BeautifulSoup) -> list:
+def get_single_page_bidding(soup: BeautifulSoup, province: str = None, bid_or_ask: str = None, status: str = None) -> list:
     results = []
     for div in soup.find_all("div", class_="title"):
         # Bidding_ID, date
@@ -54,13 +55,8 @@ def get_single_page_bidding(soup: BeautifulSoup) -> list:
         span_lszz = div.find("span", class_="lszz")
         comment = span_lszz.get_text(strip=True) if span_lszz else None
 
-        results.append({
-            "bidding_id": bidding_id,
-            "date": date,
-            "url": url,
-            "title": title,
-            "Comment": comment
-        })
+        results.append(dict(zip(FEIJIU_BIDDING_HIGH_LEVEL_COLUMNS,
+                                [bidding_id, date, url, province, bid_or_ask, status, title, comment])))
 
     return results
 
@@ -75,7 +71,7 @@ def get_all_page_bidding(province: str, bid_or_ask: str, status: str, stop_date:
 
         print(f"Fetching page {page}: {page_url}")
         page_soup = url_to_soup(page_url)
-        page_bid = get_single_page_bidding(page_soup)
+        page_bid = get_single_page_bidding(page_soup, province, bid_or_ask, status)
 
         for bid in page_bid:
             if bid["date"] and bid["date"] < stop_date:

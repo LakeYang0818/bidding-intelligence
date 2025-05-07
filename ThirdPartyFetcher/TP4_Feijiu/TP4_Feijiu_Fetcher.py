@@ -1,16 +1,14 @@
 from bs4 import BeautifulSoup
 import pandas as pd
-from ThirdPartyFetcher.general_constants import HOME_DIR
-from ThirdPartyFetcher.other_utils import get_bidding_id
-from ThirdPartyFetcher.soup_utils import url_to_soup
+from schema import BIDDING_OPPORTUNITY_COLUMNS
+from ThirdPartyFetcher.constant.general_constants import HOME_DIR
+from ThirdPartyFetcher.utils.other_utils import get_bidding_id
+from ThirdPartyFetcher.utils.soup_utils import url_to_soup
 
 feijiu_name = 'Feijiu网'
 feijiu_df = pd.read_csv(f"{HOME_DIR}data/source/third_party_platforms.csv", sep = "|")
 feijiu_url = feijiu_df[feijiu_df['Platform_Name'] == feijiu_name]['URL'].values[0]
 materials_url = feijiu_url + "v1/"
-
-
-BIDDING_OPPORTUNITY_COLUMNS = ['Bidding_ID', 'Title', 'Date', 'Url', 'Keywords', 'Announcement_Details']
 
 def get_bidding(soup: BeautifulSoup) -> list:
     data = []
