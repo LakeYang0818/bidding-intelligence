@@ -13,7 +13,6 @@ Feijiu_Search_Base_Url = "https://www.zbytb.com/search/"
 def build_search_url(page: int, province: str, city: str, bid_or_ask: str, status: str, keyword: str) -> str:
     province_area_id = PROVINCE_DICT.get(province, "") if province else ""
     city_area_id = PROVINCE_CITY_DICT.get(province, "").get(city, "") if city else None
-    print(city_area_id)
     params = {
         "page": page,
         "moduleid": STATUS_DICT.get(status, "25"),
@@ -131,11 +130,13 @@ def get_all_page_bidding(province: str = "陕西",
     print("Successfully fetched all bids.")
 
 
+# todo: add search by content functionality
+# todo: enhance keywords searching by adding 'and' or 'or' seaching on a list of keywords; and add exclusion keywords functionality
 get_all_page_bidding(province="陕西",
                      city = "",
                      bid_or_ask="仅招标",
                      status="招标",
-                     keyword="废旧",
+                     keyword="铁",
                      past_n_week = 4,
                      #specified_stop_date = "2025-05-01" # fetch data until this date,
                      #past_n_week = 1, # fetch data until past n weeks
