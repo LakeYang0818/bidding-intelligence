@@ -80,7 +80,7 @@ def get_all_page_bidding(province: str = "陕西",
                          bid_or_ask: str = "仅招标",
                          status: str = "招标",
                          keyword: str = "",  # example: "建筑"
-                         specified_stop_date: str = None, past_n_week: int = None, past_n_months: int = None) -> list:
+                         specified_stop_date: str = None, past_n_week: int = None, past_n_months: int = None):
     # get stop date
     if specified_stop_date:
         stop_date = specified_stop_date
