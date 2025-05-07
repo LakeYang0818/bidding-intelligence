@@ -4,7 +4,8 @@ from schema import FEIJIU_BIDDING_LOW_LEVEL_COLUMNS
 from ThirdPartyFetcher.constant.general_constants import HOME_DIR, skip_words
 from ThirdPartyFetcher.utils.soup_utils import url_to_soup
 
-high_level_bidding_path = f"{HOME_DIR}data/bidding/tp4_feijiu_high_level_bidding_Province_陕西_City_咸阳市_Status_仅招标_2025-04-30_to_2025-05-07.csv"
+high_level_bidding_path  = f"{HOME_DIR}data/bidding/tp4_feijiu_high_level_bidding_Province_陕西_City_咸阳市_Status_仅招标_2025-04-30_to_2025-05-07.csv"
+high_level_bidding_path2 = f"{HOME_DIR}data/bidding/tp4_feijiu_high_level_bidding_Province_陕西_City__Keyword_废旧_Status_仅招标_2025-04-09_to_2025-05-07.csv"
 
 def get_bidding_details(high_level_path: str = high_level_bidding_path, max_limit: int = None):
     high_level_bid_df = pd.read_csv(high_level_path)
@@ -29,8 +30,8 @@ def get_bidding_details(high_level_path: str = high_level_bidding_path, max_limi
             keywords = meta_tag.get('content') if meta_tag else None
 
             bidding_details.append(dict(zip(FEIJIU_BIDDING_LOW_LEVEL_COLUMNS,
-                                            [row["bidding_id"], row["date"], row["url"], row['province'], row['bid_or_ask'],
-                                             row['status'], row["title"], keywords, announcement])))
+                                            [row["bidding_id"], row["date"], row["url"], row['province'], row['city'],
+                                             row['bid_or_ask'], row['status'], row["title"], row["comment"], keywords, announcement])))
 
             time.sleep(1)
 
@@ -38,4 +39,4 @@ def get_bidding_details(high_level_path: str = high_level_bidding_path, max_limi
     bidding_details_df.to_csv(high_level_path.replace("high_level", "low_level"), index=False)
     print("Successfully saved low-level bidding details")
 
-get_bidding_details()
+get_bidding_details(high_level_bidding_path2)

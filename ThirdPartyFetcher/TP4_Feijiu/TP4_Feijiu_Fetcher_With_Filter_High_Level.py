@@ -71,8 +71,8 @@ def get_stop_date(n: int, unit: str = "week") -> str:
     return past_date.isoformat()
 
 
-def construct_high_level_feijiu_path(province: str, city: str, bid_or_ask: str, start_date: str, end_date: str):
-    return f"{HOME_DIR}data/bidding/tp4_feijiu_high_level_bidding_Province_{province}_City_{city}_Status_{bid_or_ask}_{start_date}_to_{end_date}.csv"
+def construct_high_level_feijiu_path(province: str, city: str, bid_or_ask: str, start_date: str, end_date: str, keyword: str) -> str:
+    return f"{HOME_DIR}data/bidding/tp4_feijiu_high_level_bidding_Province_{province}_City_{city}_Keyword_{keyword}_Status_{bid_or_ask}_{start_date}_to_{end_date}.csv"
 
 
 def get_all_page_bidding(province: str = "陕西",
@@ -126,16 +126,17 @@ def get_all_page_bidding(province: str = "陕西",
             page += 1
 
     all_bids_df = pd.DataFrame(all_bids)
-    all_bids_df.to_csv(construct_high_level_feijiu_path(province, city, bid_or_ask, stop_date, str(datetime.date.today())),
+    all_bids_df.to_csv(construct_high_level_feijiu_path(province, city, bid_or_ask, stop_date, str(datetime.date.today()), keyword),
                        index=False)
     print("Successfully fetched all bids.")
 
 
 get_all_page_bidding(province="陕西",
-                     city = "咸阳市",
+                     city = "",
                      bid_or_ask="仅招标",
                      status="招标",
-                     past_n_week = 1,
+                     keyword="废旧",
+                     past_n_week = 4,
                      #specified_stop_date = "2025-05-01" # fetch data until this date,
                      #past_n_week = 1, # fetch data until past n weeks
                      #past_n_month = 1, # fetch data until past n months
